@@ -22,7 +22,7 @@ fi
 if [ $1 == "pkg" ] || [ $1 == "all" ]
 then
   echo "CHECKING AND INSTALLING PACKAGES:"
-pckarr_ref=( \
+pckarr_centosref=( \
   epel-release environment-modules tree tigervnc-server subversion git \
   numpy python-matplotlib tcl tk ypbind rpcbind \
   glibc glibc.i686 elfutils-libelf ksh mesa-libGL \ 
@@ -40,10 +40,15 @@ pckarr_ref=( \
 ## NIS is deprecates Rocky 9 .. not available any more :-(
 #ypserv ypbind 
 
-pckarr=( \
+# Following was executed to enable dev power tools
+# dnf config-manager --set-enabled crb
+pckarr_installed=( \
   epel-release environment-modules tree tigervnc-server subversion git \
-  tcl tk vim tmux rsync tar bzip2 net-tools bind-utis lsof \
+  tcl tk vim tmux rsync tar bzip2 net-tools bind-utils lsof \
   policycoreutils-python-utils \
+)
+
+pckarr=( \
 )
 
 for i in  ${pckarr[*]}
