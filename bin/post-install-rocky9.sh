@@ -10,7 +10,7 @@ then
   echo "  addhosts:  Adds hostnames to /etc/hosts"
   echo "  mkmnt:     Makes all the mount points /CAD etc"
   echo "  fstab:     appends the NFS mounts to /etc/fstab"
-  echo "  pkgmin:    Minimal packages to get the CAD system running"
+  echo "  pkg:       packages" 
   echo "  link:      Creates the soft links silicon.csh and cron.daily.silicon"
   echo "  nis:       Sets up the NIS server"
   echo "  localsim:  sets up /home/local/simulation"
@@ -19,21 +19,21 @@ then
   exit 1
 fi
 
-if [ $1 == "pkgmin" ] || [ $1 == "all" ]
+if [ $1 == "pkg" ] || [ $1 == "all" ]
 then
   echo "CHECKING AND INSTALLING PACKAGES:"
-#pckarr=( \
-#  epel-release environment-modules tree tigervnc-server subversion git \
-#  numpy python-matplotlib tcl tk ypbind rpcbind \
-#  glibc glibc.i686 elfutils-libelf ksh mesa-libGL \ 
-#  mesa-libGLU motif libXp libpng libjpeg-turbo \
-#  expat glibc-devel gdb xorg-x11-fonts-misc \
-#  xorg-x11-fonts-ISO8859-1-75dpi redhat-lsb \
-#  libXScrnSaver libXaw apr apr-util compat-db47 \
-#  xorg-x11-server-Xvfb mesa-dri-drivers openssl-devel \ 
-#  cronie-anacron iverilog gtkwave \
-#  gcc gcc-c++ \
-#)
+pckarr_ref=( \
+  epel-release environment-modules tree tigervnc-server subversion git \
+  numpy python-matplotlib tcl tk ypbind rpcbind \
+  glibc glibc.i686 elfutils-libelf ksh mesa-libGL \ 
+  mesa-libGLU motif libXp libpng libjpeg-turbo \
+  expat glibc-devel gdb xorg-x11-fonts-misc \
+  xorg-x11-fonts-ISO8859-1-75dpi redhat-lsb \
+  libXScrnSaver libXaw apr apr-util compat-db47 \
+  xorg-x11-server-Xvfb mesa-dri-drivers openssl-devel \ 
+  cronie-anacron iverilog gtkwave \
+  gcc gcc-c++ \
+)
 
 ## Python pkgs are propbably loaded via pip in ROcky. Not finding these pkgs
 #numpy python-matplotlib 
@@ -42,7 +42,8 @@ then
 
 pckarr=( \
   epel-release environment-modules tree tigervnc-server subversion git \
-  tcl tk rpcbind nfs-utils \
+  tcl tk vim tmux rsync tar bzip2 net-tools bind-utis lsof \
+  policycoreutils-python-utils \
 )
 
 for i in  ${pckarr[*]}
