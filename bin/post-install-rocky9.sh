@@ -42,6 +42,23 @@ pckarr_centosref=( \
 
 # Following was executed to enable dev power tools
 # dnf config-manager --set-enabled crb
+# Time sync
+#systemctl enable --now chronyd
+#chronyc sources -v
+# SELinux enforce
+#sudo getenforce
+
+#Installing XFCE
+#dnf -y groupinstall "Xfce" "base-x"
+#dnf -y install lightdm lightdm-gtk xfce4-terminal firefox
+#systemctl disable gdm 2>/dev/null; systemctl enable lightdm
+#systemctl set-default graphical.target
+#reboot
+
+# FLEX lm required redhat-lsb-core which is discontinue in rocky9.
+# Silvaco provided that in it's bundle so installed it from there:
+#sudo dnf install /CAD1/licenseServers/silvaco/253303-licensing-2025-01-rh64/lib/support/x86_64-linux/rhel9/x86_64/redhat-lsb-*.rpm
+
 pckarr_installed=( \
   epel-release environment-modules tree tigervnc-server subversion git \
   tcl tk vim tmux rsync tar bzip2 net-tools bind-utils lsof \
@@ -49,7 +66,7 @@ pckarr_installed=( \
 )
 
 pckarr=( \
-)
+	)
 
 for i in  ${pckarr[*]}
  do
