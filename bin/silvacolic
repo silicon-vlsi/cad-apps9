@@ -1,0 +1,48 @@
+#!/bin/sh
+#
+# description: Starts and stops the SILVACO License Server  
+ 
+PATH=/sbin:/usr/sbin:/usr/bin:/bin 
+export PATH 
+LM_LICENSE_FILE_SILVACO=/CAD1/licenseServers/silvaco/license-current.lic
+export LM_LICENSE_FILE_SILVACO
+LIC_SW_HOME=/CAD1/licenseServers/silvaco/253303-licensing-2025-01-rh64
+export LIC_SW_HOME 
+
+LIC_LOGFILE=/var/tmp/lmgrd-silvaco.log 
+export LIC_LOGFILE 
+ 
+ 
+# See how we were called. 
+ 
+case "$1" in 
+  start) 
+ 
+        # Note: The su line must not be divided by line continuation (\)  
+        # in this example, the line is word wrapped, but it is one line 
+        echo -n "Starting SILVACO License Server: " 
+        su -c "$LIC_SW_HOME/bin/lmgrd -c $LM_LICENSE_FILE_SILVACO -L +$LIC_LOGFILE" 
+	echo ""
+        ;; 
+  stop) 
+        echo "Shutting down SILVACO License Server: " 
+        $LIC_SW_HOME/bin/lmdown -q -force -c $LM_LICENSE_FILE_SILVACO
+        echo "" 
+        ;; 
+  status) 
+        $LIC_SW_HOME/bin/lmstat -a -c $LM_LICENSE_FILE_SILVACO
+        echo "" 
+        ;; 
+  restart) 
+        echo "Restarting the SILVACO License Server: " 
+        $0 stop 
+        $0 start 
+        ;; 
+  lmver) 
+        $LIC_SW_HOME/bin/lmver $LIC_SW_HOME/bin/lmgrd
+        echo "" 
+        ;; 
+  *) 
+        echo "Usage: $0 {start|stop|restart|status|lmver}" 
+        exit 1 
+esac 
