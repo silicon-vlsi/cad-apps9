@@ -59,10 +59,18 @@ pckarr_centosref=( \
 # Silvaco provided that in it's bundle so installed it from there:
 #sudo dnf install /CAD1/licenseServers/silvaco/253303-licensing-2025-01-rh64/lib/support/x86_64-linux/rhel9/x86_64/redhat-lsb-*.rpm
 
+#For sstarting tigervnc server see https://www.golinuxcloud.com/step-by-step-guide-to-configure-tigervnc/
+
+# Firewall cmds for ipa servee
+#firewall-cmd --permanent --add-service={freeipa-4,dns,ntp}
+#firewall-cmd --reload
+
+
 pckarr_installed=( \
   epel-release environment-modules tree tigervnc-server subversion git \
   tcl tk vim tmux rsync tar bzip2 net-tools bind-utils lsof \
   policycoreutils-python-utils \
+  ipa-server ipa-server-dns\
 )
 
 pckarr=( \

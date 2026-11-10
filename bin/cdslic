@@ -1,0 +1,58 @@
+#!/bin/sh
+#
+# This script is based on the Mentor Graphics autostart script mgc.linux.rhel
+# and appropriate changes were made to manage Cadence license server.
+# -srout 2018/12/22
+# -srout 2019/01/20 : Made this only Cadence server instead of both Cadence and Mentor
+# 
+# DON'T REMOVE the #  below. 
+# chkconfig: 345 99 30 
+# 
+# description: Starts and stops the Cadence License Server  
+ 
+PATH=/sbin:/usr/sbin:/usr/bin:/bin 
+export PATH 
+LM_LICENSE_FILE_CDS=/CAD1/licenseServers/cadence/license-current.dat
+export LM_LICENSE_FILE_CDS 
+##Flex ver 11.7.0.0
+#LIC_SW_HOME=/CAD/licenseServers/cadence/lmtools-v11-7-0-0
+#LIC_SW_HOME=/home/admlocal/cadence/installs/LCU43/tools
+LIC_SW_HOME=/CAD1/licenseServers/cadence/LCU43/tools
+export LIC_SW_HOME 
+LIC_LOGFILE=/var/tmp/lmgrd.log 
+export LIC_LOGFILE 
+ 
+# See how we were called. 
+ 
+case "$1" in 
+  start) 
+ 
+        # Note: The su line must not be divided by line continuation (\)  
+        # in this example, the line is word wrapped, but it is one line 
+ 
+        echo -n "Starting Cadence License Server: " 
+        su -c "$LIC_SW_HOME/bin/lmgrd -c $LM_LICENSE_FILE_CDS -L +$LIC_LOGFILE" cdslic 
+	echo ""
+        ;; 
+  stop) 
+        echo "Shutting down Cadence License Server: " 
+        $LIC_SW_HOME/bin/lmdown -q -force -c $LM_LICENSE_FILE_CDS
+	echo ""
+        ;; 
+  status) 
+        $LIC_SW_HOME/bin/lmstat -a -c $LM_LICENSE_FILE_CDS 
+        echo "" 
+        ;; 
+  restart) 
+        echo "Restarting the Cadence License Server: " 
+        $0 stop 
+        $0 start 
+        ;; 
+  lmver) 
+        $LIC_SW_HOME/bin/lmver $LIC_SW_HOME/bin/lmgrd
+        echo "" 
+        ;; 
+  *) 
+        echo "Usage: cdslic {start|stop|restart|status|lmver}" 
+        exit 1 
+esac 

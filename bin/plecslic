@@ -1,0 +1,50 @@
+#!/bin/sh
+#
+# description: Starts and stops the PLECS License Server  
+ 
+PATH=/sbin:/usr/sbin:/usr/bin:/bin 
+export PATH 
+LM_LICENSE_FILE_PLECS=/CAD1/licenseServers/plecs/plexim-inuse.lic
+export LM_LICENSE_FILE_PLECS
+LIC_SW_HOME=/CAD1/licenseServers/plecs
+export LIC_SW_HOME 
+FLEX_SW_HOME=/CAD1/licenseServers/mentor/mgls_v9-23_5-6-0.aol
+export FLEX_SW_HOME 
+
+LIC_LOGFILE=/var/tmp/lmgrd-plecs.log 
+export LIC_LOGFILE 
+ 
+ 
+# See how we were called. 
+ 
+case "$1" in 
+  start) 
+ 
+        # Note: The su line must not be divided by line continuation (\)  
+        # in this example, the line is word wrapped, but it is one line 
+        echo -n "Starting PLECS License Server: " 
+        su -c "$LIC_SW_HOME/lmgrd -c $LM_LICENSE_FILE_PLECS -L +$LIC_LOGFILE" 
+	echo ""
+        ;; 
+  stop) 
+        echo "Shutting down PLECS License Server: " 
+        $FLEX_SW_HOME/bin/lmdown -q -force -c $LM_LICENSE_FILE_PLECS
+        echo "" 
+        ;; 
+  status) 
+        $FLEX_SW_HOME/bin/lmstat -a -c $LM_LICENSE_FILE_PLECS
+        echo "" 
+        ;; 
+  restart) 
+        echo "Restarting the PLECS License Server: " 
+        $0 stop 
+        $0 start 
+        ;; 
+  lmver) 
+        $FLEX_SW_HOME/bin/lmver $LIC_SW_HOME/lmgrd
+        echo "" 
+        ;; 
+  *) 
+        echo "Usage: plexlic {start|stop|restart|status|lmver}" 
+        exit 1 
+esac 
